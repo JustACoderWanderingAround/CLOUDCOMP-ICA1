@@ -24,7 +24,8 @@ public class CharacterSelection : MonoBehaviour {
         if (characters[index]) {
             characters[index].SetActive(true);
         }
-        playerInv = inventoryManager.GetInventoryIDList();
+        if (inventoryManager != null)
+            playerInv = inventoryManager.GetInventoryIDList();
     }
     ///Todo: enable or disable start button based on whether or not the ship is unlocked
     /// 1. Get ship ID from player control script
