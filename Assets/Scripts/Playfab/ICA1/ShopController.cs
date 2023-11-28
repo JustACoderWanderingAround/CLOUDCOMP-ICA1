@@ -11,6 +11,7 @@ public class ShopController : MonoBehaviour
     [SerializeField] private GameObject contentContainer;
     [SerializeField] private TextMeshProUGUI messageBox;
     [SerializeField] private Transform itemSpawnPos;
+    [SerializeField] private GameObject canvas;
     void UpdateMessageBox(string message)
     {
         Debug.Log(message);
@@ -35,13 +36,16 @@ public class ShopController : MonoBehaviour
 
             UpdateMessageBox("Catalogue Items: ");
             foreach (CatalogItem i in items)
-            {
+            {   
+                Vector3 newItemSpawnPos = new Vector3(itemSpawnPos.position.x, itemSpawnPos.position.y + (counter * -150), itemSpawnPos.position.z);
                 //UpdateMessageBox(i.DisplayName + ", " + i.VirtualCurrencyPrices["CR"]);
-                GameObject oneItemRow = Instantiate(itemBuyUI, itemSpawnPos);
+                GameObject oneItemRow = Instantiate(itemBuyUI, newItemSpawnPos, Quaternion.identity);
+                oneItemRow.transform.parent = canvas.transform;
                 uint newItemPrice = 0;
                 i.VirtualCurrencyPrices.TryGetValue("CR", out newItemPrice);
                 int newItemPriceInt = unchecked((int)newItemPrice);
                 oneItemRow.GetComponent<ShopItemBuyRowController>().InitBuyRow(i.ItemId, i.DisplayName, newItemPriceInt);
+                counter++;
             }
         }, OnError
         );

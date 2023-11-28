@@ -25,6 +25,7 @@ public class GameController : MonoBehaviour {
     private bool gameOver;
     private int score;
     private List<GameObject> asteroids;
+    int playerLevel = 1;
 
    
 
@@ -78,6 +79,7 @@ public class GameController : MonoBehaviour {
 
     public void gameIsOver(){
         SendScore(score);
+        RewardCurrency();
         gameOverText.text = "Game Over";
         gameOver = true;
     }
@@ -105,9 +107,21 @@ public class GameController : MonoBehaviour {
         };
         PlayFabClientAPI.UpdatePlayerStatistics(req, OnSuccessUpdateStat, OnError);
     }
-    public void GetCurrency()
+    public void RewardCurrency()
     {
+        float moneyAdd;
+        moneyAdd = score * (1 + (playerLevel) * 0.1f);
         // todo: calculate currency to award to player.
+        var moneyAddReq = new AddUserVirtualCurrencyRequest
+        {
+            Amount = (int)moneyAdd,
+            VirtualCurrency = "CR"
+        };
+        PlayFabClientAPI.AddUserVirtualCurrency(moneyAddReq,
+        result =>
+        {
+           Debug.Log("Successfully rewarded!");
+        }, OnError);
     }
     void OnError(PlayFabError r)
     {

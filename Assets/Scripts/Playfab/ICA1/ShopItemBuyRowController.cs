@@ -34,7 +34,7 @@ public class ShopItemBuyRowController : MonoBehaviour
 
     public void BuySelf()
     {
-        string itemID = itemNameUI.text;
+        
         var buyReq = new PurchaseItemRequest
         {
             CatalogVersion = "SpaceShooterCatalog",
