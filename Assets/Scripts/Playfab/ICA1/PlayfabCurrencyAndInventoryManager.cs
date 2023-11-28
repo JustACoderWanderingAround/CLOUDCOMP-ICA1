@@ -99,13 +99,13 @@ public class PlayfabCurrencyAndInventoryManager : MonoBehaviour
         }, OnError
         );
     }
-    public void BuyItem(string itemID, string currencyName)
+    public void BuyItem(string itemID)
     {
         var buyReq = new PurchaseItemRequest
         {
-            CatalogVersion = "PlayFabPainCatalogue",
+            CatalogVersion = "SpaceShooterCatalog",
             ItemId = itemID,
-            VirtualCurrency = currencyName,
+            VirtualCurrency ="CR",
             Price = 2
         };
         PlayFabClientAPI.PurchaseItem(buyReq,
