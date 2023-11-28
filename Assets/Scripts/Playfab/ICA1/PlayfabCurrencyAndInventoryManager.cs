@@ -120,12 +120,13 @@ public class PlayfabCurrencyAndInventoryManager : MonoBehaviour
         result =>
         {
             List<ItemInstance> ii = result.Inventory;
-            UpdateMessageBox(messageBox, "Player Inventory");
+            //UpdateMessageBox(messageBox, "Player Inventory");
             inventoryIDList.Clear();
             foreach (ItemInstance i in ii)
             {
                 inventoryIDList.Add(i.ItemId);
-                UpdateMessageBox(messageBox, i.DisplayName + ", " + i.ItemId + ", " + i.ItemInstanceId);
+                //UpdateMessageBox(messageBox, i.DisplayName + ", " + i.ItemId + ", " + i.ItemInstanceId);'
+                Debug.Log(i.DisplayName + ", " + i.ItemId + ", " + i.ItemInstanceId);
             }
         },
         OnError

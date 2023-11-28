@@ -12,6 +12,8 @@ public class CharacterSelection : MonoBehaviour {
     private List<string> playerInv;
 
     void Start() {
+        if (inventoryManager != null)
+            playerInv = inventoryManager.GetInventoryIDList();
         if (startButton != null)
             startButton.SetActive(false);
         index = PlayerPrefs.GetInt("SelectedCharacter");
@@ -23,9 +25,11 @@ public class CharacterSelection : MonoBehaviour {
         }
         if (characters[index]) {
             characters[index].SetActive(true);
+            bool currShipUnlocked = checkUnlocked(characters[index]);
+            if (startButton.activeInHierarchy != currShipUnlocked)
+                startButton.SetActive(currShipUnlocked);
         }
-        if (inventoryManager != null)
-            playerInv = inventoryManager.GetInventoryIDList();
+
     }
     ///Todo: enable or disable start button based on whether or not the ship is unlocked
     /// 1. Get ship ID from player control script
