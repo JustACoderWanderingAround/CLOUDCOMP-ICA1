@@ -84,7 +84,7 @@ public class PlayfabPlayerDataManager : MonoBehaviour
     {
         playerDataDict = new Dictionary<string, UserDataRecord>();
         Debug.Log("Got user data");
-        if (result.Data == null) Debug.Log("No Data");
+        if (result.Data == null || result.Data.Count <  1) Debug.Log("No Data");
         else
         {
             //Debug.Log("XP: " + result.Data["XP"].Value);
@@ -99,4 +99,17 @@ public class PlayfabPlayerDataManager : MonoBehaviour
         }
         
     }
+    public Dictionary<string, UserDataRecord> GetDataDict()
+    {
+        return playerDataDict;
+    }
+    private void FixedUpdate()
+    {
+        if (playerDataDict != null && levelText != null && xpText != null)
+        {
+            UpdateTextBox(levelText, "Level " + playerDataDict["LV"].Value);
+            UpdateTextBox(xpText, playerDataDict["XP"].Value + " XP");
+        }
+    }
+      
 }

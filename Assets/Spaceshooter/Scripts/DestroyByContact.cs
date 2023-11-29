@@ -27,6 +27,7 @@ public class DestroyByContact : MonoBehaviour {
                 gameController.gameIsOver();
             }
             gameController.addScore(scoreValue);
+            gameController.meteorCount++;
             Destroy(other.gameObject);
             Destroy(gameObject);
         }

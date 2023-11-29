@@ -11897,8 +11897,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 213172452}
-        m_TargetAssemblyTypeName: PlayfabLoginManager, Assembly-CSharp
+      - m_Target: {fileID: 213172456}
+        m_TargetAssemblyTypeName: PlayfabRegistrationManager, Assembly-CSharp
         m_MethodName: ToggleShowPassword
         m_Mode: 1
         m_Arguments:

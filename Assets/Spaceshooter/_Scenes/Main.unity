@@ -211,7 +211,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 049d1c3525bf04e259f5422e18eff4d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelManager: {fileID: 0}
+  levelManager: {fileID: 1787352509}
   positionAsteroid: {x: 6, y: 0, z: 16}
   asteroid: {fileID: 1964453314672550, guid: 213aef2591c0f48ae857843ea31fb19c, type: 3}
   asteroid2: {fileID: 1437848148089592, guid: a2e72881e99b342449c808fc66572e79, type: 3}
@@ -1402,6 +1402,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 848f66e44725e46499db34598b38daca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelText: {fileID: 0}
+  xpText: {fileID: 0}
 --- !u!4 &1787352510
 Transform:
   m_ObjectHideFlags: 0

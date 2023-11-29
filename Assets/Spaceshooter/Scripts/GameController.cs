@@ -21,13 +21,15 @@ public class GameController : MonoBehaviour {
     public Text gameOverText;
     public Text restartText;
     public Text mainMenuText;
+    [HideInInspector]
+    public int meteorCount;
 
     private bool restart;
     private bool gameOver;
     private int score;
     private List<GameObject> asteroids;
 
-    private Dictionary<string, string> playerData;
+    private Dictionary<string, UserDataRecord> playerData;
 
     private void Start() {
         asteroids = new List<GameObject> {
@@ -43,6 +45,8 @@ public class GameController : MonoBehaviour {
         score = 0;
         StartCoroutine(spawnWaves());
         updateScore();
+        levelManager.GetUserData();
+        meteorCount = 0;
     }
 
     private void Update() {
@@ -58,6 +62,14 @@ public class GameController : MonoBehaviour {
             restartText.text = "Press R to restart game";
             mainMenuText.text = "Press Q to go back to main menu";
             restart = true;
+        }
+      
+    }
+    private void FixedUpdate()
+    {
+        if (playerData == null && levelManager.GetDataDict() != null)
+        {
+            playerData = levelManager.GetDataDict();
         }
     }
 
@@ -79,7 +91,7 @@ public class GameController : MonoBehaviour {
 
     public void gameIsOver(){
         SendScore(score);
-        RewardCurrency();
+        RewardPlayer();
         gameOverText.text = "Game Over";
         gameOver = true;
     }
@@ -107,14 +119,18 @@ public class GameController : MonoBehaviour {
         };
         PlayFabClientAPI.UpdatePlayerStatistics(req, OnSuccessUpdateStat, OnError);
     }
-    public void RewardCurrency()
+    public void RewardPlayer()
     {
         float moneyAdd;
+        int xpAdd;
         int playerLevelInt = 0;
-        string playerLevelString = " ";
-        playerData.TryGetValue("LV", out playerLevelString);
-        int.TryParse(playerLevelString, out playerLevelInt);
+        UserDataRecord temp;
+        playerData.TryGetValue("LV", out temp);
+        int.TryParse(temp.Value, out playerLevelInt);
         moneyAdd = score * (1 + (playerLevelInt * 0.1f));
+        playerData.TryGetValue("XP", out temp);
+        int.TryParse(temp.Value, out xpAdd);
+        xpAdd += score;
         // todo: calculate currency to award to player.
         var moneyAddReq = new AddUserVirtualCurrencyRequest
         {
@@ -124,8 +140,9 @@ public class GameController : MonoBehaviour {
         PlayFabClientAPI.AddUserVirtualCurrency(moneyAddReq,
         result =>
         {
-           Debug.Log("Successfully rewarded!");
+           Debug.Log("Successfully rewarded currency!");
         }, OnError);
+        levelManager.SetUserData("XP", score.ToString());
     }
     void OnError(PlayFabError r)
     {
@@ -135,4 +152,8 @@ public class GameController : MonoBehaviour {
     {
         Debug.Log("Scoreboard update success!");
     }
+    ////
+    //// string playerLevelString = " ";
+    ////playerData.TryGetValue("LV", out playerLevelString);
+    ////int.TryParse(playerLevelString, out playerLevelInt);
 }

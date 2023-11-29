@@ -85,4 +85,5 @@ public class PlayfabLoginManager : MonoBehaviour
         passwordInputEmail.textComponent.SetAllDirty();
         passwordInputUsername.textComponent.SetAllDirty();
     }
+
 }
