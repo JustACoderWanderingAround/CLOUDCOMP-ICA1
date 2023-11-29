@@ -14,6 +14,7 @@ public class PlayfabLoginManager : MonoBehaviour
     [SerializeField] TMP_InputField usernameInput;
     [SerializeField] TMP_InputField passwordInputEmail;
     [SerializeField] TMP_InputField passwordInputUsername;
+    bool toggle = false;
 
     IEnumerator ResetMessage()
     {
@@ -66,79 +67,22 @@ public class PlayfabLoginManager : MonoBehaviour
         PlayFabClientAPI.LoginWithPlayFab(loginRequest, OnLoginSuccess, OnError);
         
     }
-    public void OnButtonLoginGuest()
+    public void ToggleShowPassword()
     {
-        RuntimePlatform deviceRuntimePlatform = Application.platform;
-
-        string CustomUserID = "Guest" + Mathf.Abs(Random.Range(float.MinValue, float.MaxValue)).ToString();
-
-        switch (deviceRuntimePlatform)
+        toggle = !toggle;
+        if (toggle)
         {
-            case RuntimePlatform.WebGLPlayer:
-            case RuntimePlatform.WindowsPlayer:
-            case RuntimePlatform.WindowsEditor:
-                var loginReq = new LoginWithCustomIDRequest
-                {
-                    CustomId = CustomUserID,
-                    CreateAccount = true
-                };
-                PlayFabClientAPI.LoginWithCustomID(loginReq, 
-                r=>
-                {
-                    var customIDUsernameChangeReq = new UpdateUserTitleDisplayNameRequest
-                    {
-                        DisplayName = CustomUserID
-                    };
-                    PlayFabClientAPI.UpdateUserTitleDisplayName(customIDUsernameChangeReq, OnDisplayNameUpdate, OnError);
-                    SceneManager.LoadScene("Menu");
-                }, OnError);
-                
-                break;
-            case RuntimePlatform.Android:
-                var androidLoginReq = new LoginWithAndroidDeviceIDRequest
-                {
-                    CreateAccount = true
-                };
-                PlayFabClientAPI.LoginWithAndroidDeviceID(androidLoginReq, r =>
-                {
-                    var customIDUsernameChangeReq = new UpdateUserTitleDisplayNameRequest
-                    {
-                        DisplayName = CustomUserID
-                    };
-                    PlayFabClientAPI.UpdateUserTitleDisplayName(customIDUsernameChangeReq, OnDisplayNameUpdate, OnError);
-                    SceneManager.LoadScene("Menu");
+            passwordInputEmail.inputType = TMP_InputField.InputType.Standard;
+            passwordInputUsername.inputType = TMP_InputField.InputType.Standard;
 
-                }, OnError);
-                break;
-            case RuntimePlatform.IPhonePlayer:
-                var appleLoginReq = new LoginWithAppleRequest
-                {
-                    CreateAccount = true
-                };
-                PlayFabClientAPI.LoginWithApple(appleLoginReq, r =>
-                {
-                    var customIDUsernameChangeReq = new UpdateUserTitleDisplayNameRequest
-                    {
-                        DisplayName = CustomUserID
-                    };
-                    PlayFabClientAPI.UpdateUserTitleDisplayName(customIDUsernameChangeReq, OnDisplayNameUpdate, OnError);
-                    SceneManager.LoadScene("Menu");
-                }, OnError);
-
-                break;
-            default:
-                UpdateMessage("Sorry, your platform not supported for guest login. Please register for an account.");
-                break;
         }
-    }
-    void OnDisplayNameUpdate(UpdateUserTitleDisplayNameResult r)
-    {
-        UpdateMessage("display name updated!" + r.DisplayName);
-    }
-    void OnGuestLoginSuccess(LoginResult r)
-    {
-        UpdateMessage("Registration success!");
+        else
+        {
+            passwordInputEmail.inputType = TMP_InputField.InputType.Password;
+            passwordInputUsername.inputType = TMP_InputField.InputType.Password;
 
-       
+        }
+        passwordInputEmail.textComponent.SetAllDirty();
+        passwordInputUsername.textComponent.SetAllDirty();
     }
 }

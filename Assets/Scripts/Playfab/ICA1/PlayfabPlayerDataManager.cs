@@ -7,6 +7,28 @@ using TMPro;
 
 public class PlayfabPlayerDataManager : MonoBehaviour
 {
+    [SerializeField] private TMP_Text levelText;
+    [SerializeField] private TMP_Text xpText;
+    Dictionary<string, UserDataRecord> playerDataDict;
+    IEnumerator WaitOneSecond()
+    {
+        // Wait for 1 second
+        yield return new WaitForSeconds(1f);
+    }
+    IEnumerator WaitForNSeconds(int n)
+    {
+        yield return new WaitForSeconds(n);
+    }
+    private void OnEnable()
+    {
+        WaitOneSecond();
+        if (levelText != null && xpText != null)
+        {
+            StartCoroutine(WaitForNSeconds(2));
+            GetUserData();
+            var temp = new UserDataRecord();
+        }
+    }
     public void SetUserData(string dataKey, string dataValue)
     {
         PlayFabClientAPI.UpdateUserData(new UpdateUserDataRequest()
@@ -16,7 +38,7 @@ public class PlayfabPlayerDataManager : MonoBehaviour
                 {dataKey, dataValue}
             }
         },
-        result => Debug.Log("Successfully updated user data"),
+        result => Debug.Log("Successfully updated user data" + dataKey),
         error =>
         {
             Debug.Log("Got error settling user " + dataKey);
@@ -24,30 +46,57 @@ public class PlayfabPlayerDataManager : MonoBehaviour
         }
         );
     }
-    public string GetUserData()
+    public void InitializePlayer()
     {
-        string returnString = " ";
-        PlayFabClientAPI.GetUserData(new GetUserDataRequest()
+        PlayFabClientAPI.UpdateUserData(new UpdateUserDataRequest()
         {
-
-        },
-        result =>
-        {
-            Debug.Log("Got user data: ");
-            if (result.Data == null || !result.Data.ContainsKey("XP")) Debug.Log("No XP");
-            else
+            Data = new Dictionary<string, string>()
             {
-                Debug.Log("XP: " + result.Data["XP"].Value);
-                returnString =  result.Data["XP"].Value;
-                //XPDisplay.text = "XP:" + result.Data["XP"].Value;
+                {"XP", "0"},
+                {"LV", "0"}
             }
         },
+       result => Debug.Log("Successfully initialized user data"),
+       error =>
+       {
+           Debug.Log("Got error initalizingPlayer" );
+           Debug.Log(error.GenerateErrorReport());
+       }
+       );
+    }
+    public void GetUserData()
+    {
+        
+        PlayFabClientAPI.GetUserData(new GetUserDataRequest() {},
+        OnDataGetSuccess,
         (error) =>
         {
             Debug.Log("Got error retriving user data");
             Debug.Log(error.GenerateErrorReport());
         });
-        return returnString;
     }
-    
+
+    void UpdateTextBox(TMP_Text textBox, string value)
+    {
+        textBox.text = value;
+    }
+    void OnDataGetSuccess(GetUserDataResult result)
+    {
+        playerDataDict = new Dictionary<string, UserDataRecord>();
+        Debug.Log("Got user data");
+        if (result.Data == null) Debug.Log("No Data");
+        else
+        {
+            //Debug.Log("XP: " + result.Data["XP"].Value);
+            //returnString =  result.Data["XP"].Value;
+            ////XPDisplay.text = "XP:" + result.Data["XP"].Value;
+            foreach (var item in result.Data)
+            {
+                Debug.Log("Data added: " + item.Key + "-" + item.Value + "(" + item.Value.Value + ")");
+                playerDataDict.Add(item.Key, item.Value);
+            }
+
+        }
+        
+    }
 }

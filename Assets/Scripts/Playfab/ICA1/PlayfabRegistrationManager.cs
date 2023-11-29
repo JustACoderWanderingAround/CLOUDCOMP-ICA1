@@ -16,7 +16,8 @@ public class PlayfabRegistrationManager : MonoBehaviour
     [SerializeField] TMP_InputField passwordInput;
     [SerializeField] TMP_InputField passwordConfirmationInput;
     [SerializeField] TMP_InputField displayNameInput;
-
+    [SerializeField] PlayfabPlayerDataManager dataManager;
+    bool toggle = false;
     IEnumerator ResetMessage()
     {
         yield return new WaitForSeconds(3);
@@ -53,6 +54,7 @@ public class PlayfabRegistrationManager : MonoBehaviour
     void OnDisplayNameUpdate(UpdateUserTitleDisplayNameResult r)
     {
         UpdateMessage("display name updated!" + r.DisplayName);
+        dataManager.InitializePlayer();
         SceneManager.LoadScene("Menu");
     }
 
@@ -94,6 +96,92 @@ public class PlayfabRegistrationManager : MonoBehaviour
             );
         PlayFabClientAPI.RegisterPlayFabUser(registerRequest, OnSuccess, OnError);
        
+    }
+    public void OnButtonLoginGuest()
+    {
+        RuntimePlatform deviceRuntimePlatform = Application.platform;
+
+        string CustomUserID = "Guest" + Mathf.Abs(Random.Range(float.MinValue, float.MaxValue)).ToString();
+
+        switch (deviceRuntimePlatform)
+        {
+            case RuntimePlatform.WebGLPlayer:
+            case RuntimePlatform.WindowsPlayer:
+            case RuntimePlatform.WindowsEditor:
+                var loginReq = new LoginWithCustomIDRequest
+                {
+                    CustomId = CustomUserID,
+                    CreateAccount = true
+                };
+                PlayFabClientAPI.LoginWithCustomID(loginReq,
+                r =>
+                {
+                    var customIDUsernameChangeReq = new UpdateUserTitleDisplayNameRequest
+                    {
+                        DisplayName = CustomUserID
+                    };
+                    PlayFabClientAPI.UpdateUserTitleDisplayName(customIDUsernameChangeReq, OnDisplayNameUpdate, OnError);
+                    SceneManager.LoadScene("Menu");
+                }, OnError);
+
+                break;
+            case RuntimePlatform.Android:
+                var androidLoginReq = new LoginWithAndroidDeviceIDRequest
+                {
+                    CreateAccount = true
+                };
+                PlayFabClientAPI.LoginWithAndroidDeviceID(androidLoginReq, r =>
+                {
+                    var customIDUsernameChangeReq = new UpdateUserTitleDisplayNameRequest
+                    {
+                        DisplayName = CustomUserID
+                    };
+                    PlayFabClientAPI.UpdateUserTitleDisplayName(customIDUsernameChangeReq, OnDisplayNameUpdate, OnError);
+                    SceneManager.LoadScene("Menu");
+
+                }, OnError);
+                break;
+            case RuntimePlatform.IPhonePlayer:
+                var appleLoginReq = new LoginWithAppleRequest
+                {
+                    CreateAccount = true
+                };
+                PlayFabClientAPI.LoginWithApple(appleLoginReq, r =>
+                {
+                    var customIDUsernameChangeReq = new UpdateUserTitleDisplayNameRequest
+                    {
+                        DisplayName = CustomUserID
+                    };
+                    PlayFabClientAPI.UpdateUserTitleDisplayName(customIDUsernameChangeReq, OnDisplayNameUpdate, OnError);
+                    SceneManager.LoadScene("Menu");
+                }, OnError);
+
+                break;
+            default:
+                UpdateMessage("Sorry, your platform not supported for guest login. Please register for an account.");
+                break;
+            
+
+        }
+
+    }
+    public void ToggleShowPassword() 
+    {
+        toggle = !toggle;
+        if (toggle)
+        {
+            passwordInput.inputType = TMP_InputField.InputType.Standard;
+            passwordConfirmationInput.inputType = TMP_InputField.InputType.Standard;
+            
+
+        }
+        else
+        {
+            passwordInput.inputType = TMP_InputField.InputType.Password;
+            passwordConfirmationInput.inputType = TMP_InputField.InputType.Password;
+        }
+        passwordInput.textComponent.SetAllDirty();
+        passwordConfirmationInput.textComponent.SetAllDirty();
     }
    
 }
