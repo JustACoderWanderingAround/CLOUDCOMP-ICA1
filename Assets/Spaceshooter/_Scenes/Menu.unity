@@ -1049,7 +1049,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 2
           m_FloatArgument: 0
-          m_StringArgument: ShopScene
+          m_StringArgument: StatisticsScene
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &228749482
@@ -3877,6 +3877,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 848f66e44725e46499db34598b38daca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerDataObj: {fileID: 11400000, guid: 1ac831524a5ab4942af877cf593592f8, type: 2}
   levelText: {fileID: 834181464}
   xpText: {fileID: 156819442}
 --- !u!4 &1898149399

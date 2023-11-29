@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73ceca452941d17458ed68be500c9ba1, type: 3}
+  m_Name: newPlayerData
+  m_EditorClassIdentifier: 
+  meteorKillCount: 0
+  meteorEscapeCount: 0
+  timePlayed: 0
+  timesPlayed: 0

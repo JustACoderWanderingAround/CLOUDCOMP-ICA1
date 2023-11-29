@@ -8,6 +8,7 @@ using PlayFab;
 
 public class GameController : MonoBehaviour {
 
+    public PlayerDataScriptableObject playerDataObject;
     public PlayfabPlayerDataManager levelManager;
     public Vector3 positionAsteroid;
     public GameObject asteroid;
@@ -152,8 +153,4 @@ public class GameController : MonoBehaviour {
     {
         Debug.Log("Scoreboard update success!");
     }
-    ////
-    //// string playerLevelString = " ";
-    ////playerData.TryGetValue("LV", out playerLevelString);
-    ////int.TryParse(playerLevelString, out playerLevelInt);
 }

@@ -7,6 +7,7 @@ using TMPro;
 
 public class PlayfabPlayerDataManager : MonoBehaviour
 {
+    [SerializeField] private PlayerDataScriptableObject playerDataObj;
     [SerializeField] private TMP_Text levelText;
     [SerializeField] private TMP_Text xpText;
     Dictionary<string, UserDataRecord> playerDataDict;
@@ -48,12 +49,17 @@ public class PlayfabPlayerDataManager : MonoBehaviour
     }
     public void InitializePlayer()
     {
+        playerDataObj.ResetData();
+        string defaultPlayerMetaData = playerDataObj.SaveToString();
+        Debug.Log(defaultPlayerMetaData);
         PlayFabClientAPI.UpdateUserData(new UpdateUserDataRequest()
         {
+
             Data = new Dictionary<string, string>()
             {
                 {"XP", "0"},
-                {"LV", "0"}
+                {"LV", "0"},
+                {"META",defaultPlayerMetaData }
             }
         },
        result => Debug.Log("Successfully initialized user data"),
@@ -97,7 +103,7 @@ public class PlayfabPlayerDataManager : MonoBehaviour
             }
 
         }
-        
+        UpdatePlayerDataSO();
     }
     public Dictionary<string, UserDataRecord> GetDataDict()
     {
@@ -111,5 +117,12 @@ public class PlayfabPlayerDataManager : MonoBehaviour
             UpdateTextBox(xpText, playerDataDict["XP"].Value + " XP");
         }
     }
+    void UpdatePlayerDataSO()
+    {
+        string playerData = playerDataDict["META"].Value;
+        PlayerDataScriptableObject.PlayerStats playerDataOverride = JsonUtility.FromJson<PlayerDataScriptableObject.PlayerStats>(playerData);
+        playerDataObj.Stats = playerDataOverride;
+    }
+    
       
 }

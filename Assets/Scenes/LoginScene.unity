@@ -631,6 +631,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 848f66e44725e46499db34598b38daca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerDataObj: {fileID: 11400000, guid: 1ac831524a5ab4942af877cf593592f8, type: 2}
   levelText: {fileID: 0}
   xpText: {fileID: 0}
 --- !u!114 &213172456
