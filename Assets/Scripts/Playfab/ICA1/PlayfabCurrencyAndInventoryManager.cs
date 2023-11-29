@@ -144,17 +144,6 @@ public class PlayfabCurrencyAndInventoryManager : MonoBehaviour
         {
             UpdateMessageBox(currencyBox, currencyName +  ": " + result.Balance.ToString());
         }, OnError);
-        //PlayFabClientAPI.ExecuteCloudScript(new ExecuteCloudScriptRequest
-        //{
-
-        //    FunctionName = "AddCredits",
-        //    FunctionParameter = new
-        //    {
-        //        UserAddAmount = moneyAdd,
-        //        CurrencyToAdd = currencyName
-        //    }
-
-        //}, OnExeSucc, OnError);
     }
     public void CheatAddCurrency()
     {
@@ -170,6 +159,7 @@ public class PlayfabCurrencyAndInventoryManager : MonoBehaviour
     }
     public List<string> GetInventoryIDList()
     {
+        GetPlayerInventory();
         return inventoryIDList;
     }
 

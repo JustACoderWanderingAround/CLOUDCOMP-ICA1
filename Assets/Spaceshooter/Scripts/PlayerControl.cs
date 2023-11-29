@@ -9,7 +9,7 @@ public class Boundary{
 
 public class PlayerControl : MonoBehaviour {
 
-    public string shipName;
+
     private Rigidbody playerRb;
     private AudioSource playerWeapon;
     public float speed;

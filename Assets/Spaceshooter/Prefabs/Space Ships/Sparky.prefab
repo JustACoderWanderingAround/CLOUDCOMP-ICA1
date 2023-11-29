@@ -48,6 +48,7 @@ GameObject:
   - component: {fileID: 64852753532745204}
   - component: {fileID: 82751862582250110}
   - component: {fileID: 114658886896359934}
+  - component: {fileID: 6133287383498395442}
   m_Layer: 0
   m_Name: Sparky
   m_TagString: Player
@@ -261,7 +262,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e556055501c944571a115bf6dac886af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shipName: Sparky
   speed: 15
   tiltMultiplier: 4
   boundary:
@@ -273,6 +273,19 @@ MonoBehaviour:
   shotSpawn: {fileID: 4246698267964798}
   shotSpawn2: {fileID: 4869784285621466}
   fireRate: 0.125
+--- !u!114 &6133287383498395442
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1464677727515440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2c9c8c62239a484d8674a0caeed75ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shipName: Sparky
 --- !u!1 &1464942715097832
 GameObject:
   m_ObjectHideFlags: 0

@@ -25,9 +25,12 @@ public class CharacterSelection : MonoBehaviour {
         }
         if (characters[index]) {
             characters[index].SetActive(true);
-            bool currShipUnlocked = checkUnlocked(characters[index]);
-            if (startButton.activeInHierarchy != currShipUnlocked)
-                startButton.SetActive(currShipUnlocked);
+            if (startButton != null)
+            {
+                bool currShipUnlocked = checkUnlocked(characters[index]);
+                if (startButton.activeInHierarchy != currShipUnlocked)
+                    startButton.SetActive(currShipUnlocked);
+            }
         }
 
     }
@@ -74,7 +77,7 @@ public class CharacterSelection : MonoBehaviour {
     }
    bool checkUnlocked(GameObject gameObject)
     {
-        PlayerControl shipData = gameObject.GetComponent<PlayerControl>();
+        ShipData shipData = gameObject.GetComponent<ShipData>();
         if (shipData.shipName == "Default")
         {
             return true;

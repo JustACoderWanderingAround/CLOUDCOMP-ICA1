@@ -8,6 +8,7 @@ using PlayFab;
 
 public class GameController : MonoBehaviour {
 
+    public PlayfabPlayerDataManager levelManager;
     public Vector3 positionAsteroid;
     public GameObject asteroid;
     public GameObject asteroid2;
@@ -25,9 +26,8 @@ public class GameController : MonoBehaviour {
     private bool gameOver;
     private int score;
     private List<GameObject> asteroids;
-    int playerLevel = 1;
 
-   
+    private Dictionary<string, string> playerData;
 
     private void Start() {
         asteroids = new List<GameObject> {
@@ -110,7 +110,11 @@ public class GameController : MonoBehaviour {
     public void RewardCurrency()
     {
         float moneyAdd;
-        moneyAdd = score * (1 + (playerLevel) * 0.1f);
+        int playerLevelInt = 0;
+        string playerLevelString = " ";
+        playerData.TryGetValue("LV", out playerLevelString);
+        int.TryParse(playerLevelString, out playerLevelInt);
+        moneyAdd = score * (1 + (playerLevelInt * 0.1f));
         // todo: calculate currency to award to player.
         var moneyAddReq = new AddUserVirtualCurrencyRequest
         {

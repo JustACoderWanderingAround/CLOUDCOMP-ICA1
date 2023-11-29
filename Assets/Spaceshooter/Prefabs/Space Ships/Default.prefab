@@ -9657,6 +9657,7 @@ GameObject:
   - component: {fileID: 64768655334384342}
   - component: {fileID: 82939534583016096}
   - component: {fileID: 114449464520277442}
+  - component: {fileID: 5512558451224705401}
   m_Layer: 0
   m_Name: Default
   m_TagString: Player
@@ -9870,7 +9871,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e556055501c944571a115bf6dac886af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shipName: Default
   speed: 10
   tiltMultiplier: 5
   boundary:
@@ -9882,3 +9882,16 @@ MonoBehaviour:
   shotSpawn: {fileID: 4756363088591982}
   shotSpawn2: {fileID: 0}
   fireRate: 0.25
+--- !u!114 &5512558451224705401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1871664021623010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2c9c8c62239a484d8674a0caeed75ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shipName: Default
