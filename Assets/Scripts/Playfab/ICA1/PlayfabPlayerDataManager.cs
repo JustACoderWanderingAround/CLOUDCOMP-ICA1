@@ -27,7 +27,6 @@ public class PlayfabPlayerDataManager : MonoBehaviour
         {
             StartCoroutine(WaitForNSeconds(2));
             GetUserData();
-            var temp = new UserDataRecord();
         }
     }
     public void SetUserData(string dataKey, string dataValue)
@@ -39,7 +38,7 @@ public class PlayfabPlayerDataManager : MonoBehaviour
                 {dataKey, dataValue}
             }
         },
-        result => Debug.Log("Successfully updated user data" + dataKey),
+        result => Debug.Log("Successfully updated user data " + dataKey),
         error =>
         {
             Debug.Log("Got error settling user " + dataKey);
@@ -57,8 +56,6 @@ public class PlayfabPlayerDataManager : MonoBehaviour
 
             Data = new Dictionary<string, string>()
             {
-                {"XP", "0"},
-                {"LV", "0"},
                 {"META",defaultPlayerMetaData }
             }
         },
@@ -101,9 +98,9 @@ public class PlayfabPlayerDataManager : MonoBehaviour
                 Debug.Log("Data added: " + item.Key + "-" + item.Value + "(" + item.Value.Value + ")");
                 playerDataDict.Add(item.Key, item.Value);
             }
-
+            UpdatePlayerDataSO();
         }
-        UpdatePlayerDataSO();
+
     }
     public Dictionary<string, UserDataRecord> GetDataDict()
     {
@@ -113,15 +110,16 @@ public class PlayfabPlayerDataManager : MonoBehaviour
     {
         if (playerDataDict != null && levelText != null && xpText != null)
         {
-            UpdateTextBox(levelText, "Level " + playerDataDict["LV"].Value);
-            UpdateTextBox(xpText, playerDataDict["XP"].Value + " XP");
+            UpdateTextBox(levelText, "Level " + playerDataObj.stats.level.ToString());
+            UpdateTextBox(xpText, playerDataObj.stats.xp.ToString() + " XP");
         }
     }
     void UpdatePlayerDataSO()
     {
         string playerData = playerDataDict["META"].Value;
-        PlayerDataScriptableObject.PlayerStats playerDataOverride = JsonUtility.FromJson<PlayerDataScriptableObject.PlayerStats>(playerData);
-        playerDataObj.Stats = playerDataOverride;
+        Debug.Log("Update to this player data: " + playerData);
+        PlayerStats playerDataOverride = JsonUtility.FromJson<PlayerStats>(playerData);
+        playerDataObj.stats = playerDataOverride;
     }
     
       

@@ -51,7 +51,6 @@ public class PlayfabLoginManager : MonoBehaviour
             }
         };
         PlayFabClientAPI.LoginWithEmailAddress(loginRequest, OnLoginSuccess, OnError);
-        SceneManager.LoadScene("Menu");
     }
     public void OnButtonLoginUsername()
     {

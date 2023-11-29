@@ -28,6 +28,8 @@ public class GameController : MonoBehaviour {
     private bool restart;
     private bool gameOver;
     private int score;
+    private int secondsPlayed;
+    private float elapsedTime;
     private List<GameObject> asteroids;
 
     private Dictionary<string, UserDataRecord> playerData;
@@ -64,7 +66,7 @@ public class GameController : MonoBehaviour {
             mainMenuText.text = "Press Q to go back to main menu";
             restart = true;
         }
-      
+        elapsedTime += Time.deltaTime;
     }
     private void FixedUpdate()
     {
@@ -124,15 +126,29 @@ public class GameController : MonoBehaviour {
     {
         float moneyAdd;
         int xpAdd;
+        int meteorKillCountTmp;
         int playerLevelInt = 0;
-        UserDataRecord temp;
-        playerData.TryGetValue("LV", out temp);
-        int.TryParse(temp.Value, out playerLevelInt);
+        int seconds;
+        int newLevel;
+        PlayerStats newStats = playerDataObject.stats;
+        playerLevelInt = playerDataObject.stats.level;
         moneyAdd = score * (1 + (playerLevelInt * 0.1f));
-        playerData.TryGetValue("XP", out temp);
-        int.TryParse(temp.Value, out xpAdd);
+        xpAdd = playerDataObject.stats.xp;
         xpAdd += score;
-        // todo: calculate currency to award to player.
+        meteorKillCountTmp = playerDataObject.stats.meteorKillCount;
+        seconds = playerDataObject.stats.timePlayed;
+        seconds += (int)(elapsedTime);
+        newLevel = xpAdd / 100;
+        newStats.xp = xpAdd;
+        newStats.meteorKillCount = meteorKillCountTmp + meteorCount;
+        newStats.timePlayed = seconds;
+        newStats.timesPlayed = playerDataObject.stats.timesPlayed + 1;
+        newStats.level = newLevel;
+        if (score > playerDataObject.stats.highScore)
+        {
+            newStats.highScore = score;
+        }
+        playerDataObject.stats = newStats;
         var moneyAddReq = new AddUserVirtualCurrencyRequest
         {
             Amount = (int)moneyAdd,
@@ -141,9 +157,9 @@ public class GameController : MonoBehaviour {
         PlayFabClientAPI.AddUserVirtualCurrency(moneyAddReq,
         result =>
         {
-           Debug.Log("Successfully rewarded currency!");
+           Debug.Log("Successfully rewarded currency rewards");
         }, OnError);
-        levelManager.SetUserData("XP", score.ToString());
+        levelManager.SetUserData("META", playerDataObject.SaveToString());
     }
     void OnError(PlayFabError r)
     {

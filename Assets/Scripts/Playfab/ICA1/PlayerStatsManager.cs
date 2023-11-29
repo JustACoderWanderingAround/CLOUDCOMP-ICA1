@@ -11,11 +11,16 @@ public class PlayerStatsManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        int minutes = metaDataSO.stats.timePlayed / 60;
+        int seconds = metaDataSO.stats.timePlayed % 60;
         string statString = "Player Statistics\n";
-        statString += ("Meteor Kill Count: " + metaDataSO.Stats.meteorKillCount + "\n");
-        statString += ("Meteor Escape Count: " + metaDataSO.Stats.meteorKillCount + "\n");
-        statString += ("Time Played: " + metaDataSO.Stats.timePlayed + "\n");
-        statString += ("Number of times play: " + metaDataSO.Stats.timesPlayed + "\n");
+        statString += "Level: " + metaDataSO.stats.level;
+        statString += "XP: " + metaDataSO.stats.xp;
+        statString += ("Meteor Kill Count: " + metaDataSO.stats.meteorKillCount + "\n");
+        statString += ("Time Played: " + minutes.ToString() +" minutes " + seconds.ToString() + " seconds" + "\n");
+        statString += ("Number of times played: " + metaDataSO.stats.timesPlayed + "\n");
+        
         statisticsText.text = statString;
     }
 }
+ 

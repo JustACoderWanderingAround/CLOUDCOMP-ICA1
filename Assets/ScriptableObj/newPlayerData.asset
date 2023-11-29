@@ -12,7 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73ceca452941d17458ed68be500c9ba1, type: 3}
   m_Name: newPlayerData
   m_EditorClassIdentifier: 
-  meteorKillCount: 0
-  meteorEscapeCount: 0
-  timePlayed: 0
-  timesPlayed: 0
+  stats:
+    level: 0
+    xp: 130
+    meteorKillCount: 11
+    meteorEscapeCount: 0
+    timePlayed: 0
+    timesPlayed: 0
+    highScore: 0

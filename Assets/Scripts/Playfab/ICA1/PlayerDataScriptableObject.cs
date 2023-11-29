@@ -3,33 +3,37 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
+public struct PlayerStats
+{
+    public int level;
+    public int xp;
+    public int meteorKillCount;
+    public int timePlayed;
+    public int timesPlayed;
+    public int highScore;
+}
 
 [CreateAssetMenu(fileName = "playerData")]
 public class PlayerDataScriptableObject : ScriptableObject
 {
-    [Serializable]
-    public struct PlayerStats
-    {
-        public string meteorKillCount;
-        public string meteorEscapeCount;
-        public string timePlayed;
-        public string timesPlayed;
-    }
-    [SerializeField]
-    private PlayerStats stats;
-    public PlayerStats Stats { get => stats; set => stats = value; }
+   
+    public PlayerStats stats;
+   
 
 
     public string SaveToString()
     {
-        return JsonUtility.ToJson(this);
+        return JsonUtility.ToJson(stats);
     }
 
     public void ResetData()
     {
-        stats.meteorKillCount = "0";
-        stats.meteorEscapeCount = "0";
-        stats.timePlayed = "0";
-        stats.timesPlayed = "0";
+        stats.level = 0;
+        stats.xp = 0;
+        stats.meteorKillCount = 0;
+        stats.timePlayed = 0;
+        stats.timesPlayed = 0;
+        stats.highScore = 0;
     }
 }
