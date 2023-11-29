@@ -11,9 +11,17 @@ public class CharacterSelection : MonoBehaviour {
     int index;
     private List<string> playerInv;
 
+    IEnumerator WaitOneSecond()
+    {
+        // Wait for 1 second
+        yield return new WaitForSeconds(1f);
+    }
     void Start() {
         if (inventoryManager != null)
+        {
             playerInv = inventoryManager.GetInventoryIDList();
+            StartCoroutine(WaitOneSecond());
+        }
         if (startButton != null)
             startButton.SetActive(false);
         index = PlayerPrefs.GetInt("SelectedCharacter");

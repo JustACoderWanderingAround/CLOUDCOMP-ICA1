@@ -80,25 +80,6 @@ public class PlayfabCurrencyAndInventoryManager : MonoBehaviour
         OnError
         );
     }
-    public void GetCatalog()
-    {
-        var catreq = new GetCatalogItemsRequest
-        {
-            CatalogVersion = "SpaceShooterCatalog"
-        };
-        PlayFabClientAPI.GetCatalogItems(catreq,
-        result =>
-        {
-            List<CatalogItem> items = result.Catalog;
-
-            UpdateMessageBox(messageBox, "Catalogue Items: ");
-            foreach (CatalogItem i in items)
-            {
-                UpdateMessageBox(messageBox, i.DisplayName + ", " + i.VirtualCurrencyPrices["CR"]);
-            }
-        }, OnError
-        );
-    }
     public void BuyItem(string itemID)
     {
         var buyReq = new PurchaseItemRequest
@@ -161,6 +142,17 @@ public class PlayfabCurrencyAndInventoryManager : MonoBehaviour
     {
         GetPlayerInventory();
         return inventoryIDList;
+    }
+    public bool CheckPresentInPlayerInventory(string itemIDtoCheck)
+    {
+        foreach (string itemID in inventoryIDList)
+        {
+            if (itemIDtoCheck == itemID)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

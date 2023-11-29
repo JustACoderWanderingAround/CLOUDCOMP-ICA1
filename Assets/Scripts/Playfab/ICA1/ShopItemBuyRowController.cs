@@ -7,7 +7,7 @@ using PlayFab;
 
 public class ShopItemBuyRowController : MonoBehaviour
 {
-    [SerializeField] TextMeshProUGUI itemNameUI, itemPriceUI;
+    [SerializeField] TextMeshProUGUI itemNameUI, itemPriceUI, itemDescriptionUI;
     string itemID, itemName;
     int itemPrice;
     private int ItemPrice
@@ -22,7 +22,7 @@ public class ShopItemBuyRowController : MonoBehaviour
     /// </summary>
     /// <param name="itemID"></param>
     /// <param name="price"></param>
-    public void InitBuyRow(string itemID, string itemName,int price)
+    public void InitBuyRow(string itemID, string itemName, int price, string description)
     {
         this.itemID = itemID;
         this.itemName = itemName;
@@ -30,6 +30,7 @@ public class ShopItemBuyRowController : MonoBehaviour
 
         itemNameUI.text = itemName;
         itemPriceUI.text = itemPrice.ToString();
+        itemDescriptionUI.text = description;
     }
 
     public void BuySelf()

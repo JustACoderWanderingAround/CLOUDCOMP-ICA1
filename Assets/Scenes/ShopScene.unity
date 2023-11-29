@@ -500,6 +500,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26aaba10f7db4464581c9d3f0ef5f215, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inventoryManager: {fileID: 1232277792}
   itemBuyUI: {fileID: 3552922971499531797, guid: 9301c97ed5f3e954b8d4dffae590207e, type: 3}
   contentContainer: {fileID: 1644850913}
   messageBox: {fileID: 1786912295}

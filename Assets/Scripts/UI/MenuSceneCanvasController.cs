@@ -14,6 +14,7 @@ public class MenuSceneCanvasController : MonoBehaviour
         CANVAS_EMAIL = 1,
         CANVAS_USERNAME = 2,
         CANVAS_REGISTER = 3,
+        CANVAS_RESET = 4,
         NUM_CANVAS
     }
     CurrentActiveCanvas currentActiveCanvas;
@@ -52,6 +53,9 @@ public class MenuSceneCanvasController : MonoBehaviour
                 break;
             case 3:
                 currentActiveCanvas = CurrentActiveCanvas.CANVAS_REGISTER;
+                break;
+            case 4:
+                currentActiveCanvas = CurrentActiveCanvas.CANVAS_RESET;
                 break;
             default:
                 Debug.Log("You're fucked. UI dun goofed. canvasIndex > 3 || < 0.");
