@@ -66,7 +66,7 @@ public class PlayfabMainGameLeaderboardManager : MonoBehaviour
             foreach (var item in r.Leaderboard)
             {
 
-                string onerow = item.Position + "/" + item.PlayFabId + "/" + item.DisplayName + "/" + item.StatValue + "\n";
+                string onerow = item.Position + 1 + " - " + item.PlayFabId + " - " + item.DisplayName + " - " + item.StatValue + "\n";
                 LeaderboardStr += onerow;
             }
             leaderboardText.text = LeaderboardStr;

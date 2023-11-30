@@ -16,7 +16,6 @@ public class PlayfabCurrencyAndInventoryManager : MonoBehaviour
     int tabPress = 0;
     bool cheatEnabled;
     private int creditCount = 0;
-    private int goldCount = 0;
     private List<string> inventoryIDList = new List<string>();
     private void OnEnable()
     {

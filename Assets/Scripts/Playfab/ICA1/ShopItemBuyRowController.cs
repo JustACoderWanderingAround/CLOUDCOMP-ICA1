@@ -29,7 +29,7 @@ public class ShopItemBuyRowController : MonoBehaviour
         this.itemPrice = price;
 
         itemNameUI.text = itemName;
-        itemPriceUI.text = itemPrice.ToString();
+        itemPriceUI.text = itemPrice.ToString() + "CR";
         itemDescriptionUI.text = description;
     }
 

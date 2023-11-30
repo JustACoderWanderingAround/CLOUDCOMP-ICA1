@@ -14,7 +14,8 @@ public class PlayerResetPasswordManager : MonoBehaviour
             Email = emailField.text,
             TitleId = PlayFabSettings.staticSettings.TitleId
         };
-        PlayFabClientAPI.SendAccountRecoveryEmail(req, r => { Debug.Log("Email sent!"); messageBox.text = "Email sent! Head back to the home page and re-login." ; }, OnError);
+        PlayFabClientAPI.SendAccountRecoveryEmail(req, r => { Debug.Log("Email sent!"); 
+            messageBox.text = "Email sent! Head back to the home page and re-login." ; }, OnError);
     }
     void OnError(PlayFabError e)
     {
