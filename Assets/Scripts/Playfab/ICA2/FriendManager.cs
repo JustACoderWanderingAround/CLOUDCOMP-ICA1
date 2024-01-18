@@ -11,6 +11,10 @@ public class FriendManager : MonoBehaviour
     [SerializeField]TextMeshProUGUI txtFrdList, leaderboarddisplay;
     [SerializeField] TMP_InputField nameInputField;
     // Start is called before the first frame update
+    private void Awake()
+    {
+        GetFriends();
+    }
     void DisplayFriends(List<FriendInfo> friendsCache)
     {
         txtFrdList.text = "";
@@ -88,6 +92,10 @@ public class FriendManager : MonoBehaviour
             Debug.Log("Unfriended successfully!");
         }, DisplayPlayFabError);
     }
+    public void RemoveFriendByUsername(string username)
+    {
+
+    }
 
     public void AddFriendByUsername()
     {
@@ -117,4 +125,14 @@ public class FriendManager : MonoBehaviour
     //        OfferedInventoryInstanceIds = new List<string> { myItemInstanceID },
     //    }, LogSuccess, DisplayError);
     //}
+    public void SendFriendReq()
+    {
+        PlayFabClientAPI.ExecuteCloudScript(new ExecuteCloudScriptRequest { 
+            FunctionName = "SendFriendRequest", 
+            FunctionParameter = new { FriendPlayFabId = nameInputField.text }, 
+            GeneratePlayStreamEvent = true,
+        }, result => {
+            Debug.Log("Unfriended successfully!");
+        }, null);
+    }
 }

@@ -23,8 +23,8 @@ public class FriendListDisplay : MonoBehaviour
         {
             Vector3 newItemSpawnPos = new Vector3(itemSpawnPos.position.x, itemSpawnPos.position.y + (i * -210), itemSpawnPos.position.z);
             GameObject oneFriendRow = Instantiate(friendRow, newItemSpawnPos, Quaternion.identity);
-            oneFriendRow.GetComponent<FriendRow>().InitRow(friendList[i].Username);
-            oneFriendRow.transform.parent = contentTransform;
+            oneFriendRow.GetComponent<FriendRow>().InitRow("Friend "+ i + "name:" + friendList[i].Username, "Tags:" + friendList[i].Tags, friendList[i].FriendPlayFabId);
+            oneFriendRow.transform.parent = contentTransform; 
         }
     }
 }

@@ -34,6 +34,15 @@ public class PlayfabMainGameLeaderboardManager : MonoBehaviour
         };
         PlayFabClientAPI.GetLeaderboardAroundPlayer(lbreq, OnSuccessPlayerLeaderboardGet, OnError);
     }
+    public void GetFriendLeaderboard()
+    {
+        var friendReq = new GetFriendLeaderboardRequest
+        {
+            MaxResultsCount = 10,
+            StatisticName = "Highscore",
+        };
+        PlayFabClientAPI.GetFriendLeaderboard(friendReq, OnSuccessLeaderboardGet, OnError);
+    }
     
     void OnSuccessLeaderboardGet(GetLeaderboardResult r)
     {
@@ -55,6 +64,27 @@ public class PlayfabMainGameLeaderboardManager : MonoBehaviour
             leaderboardText.text = "--- LEADERBOARD---\nLeaderboard is empty;";
         }
         
+    }
+    void OnSuccessLeaderboardGet(GetFriendLeaderboardAroundPlayerResult r)
+    {
+        string LeaderboardStr = "Leaderboard: \n";
+        Debug.Log("Scoreboard get success!");
+        if (r.Leaderboard.Count > 0)
+        {
+            LeaderboardStr += "--- LEADERBOARD---\n";
+            foreach (var item in r.Leaderboard)
+            {
+
+                string onerow = item.Position + 1 + " - " + item.PlayFabId + " - " + item.DisplayName + " - " + item.StatValue + "\n";
+                LeaderboardStr += onerow;
+            }
+            leaderboardText.text = LeaderboardStr;
+        }
+        else
+        {
+            leaderboardText.text = "--- LEADERBOARD---\nLeaderboard is empty;";
+        }
+
     }
     void OnSuccessPlayerLeaderboardGet(GetLeaderboardAroundPlayerResult r)
     {
