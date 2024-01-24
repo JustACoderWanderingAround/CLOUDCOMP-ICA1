@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 
 public class FriendManager : MonoBehaviour
 {
-    [SerializeField]TextMeshProUGUI txtFrdList, leaderboarddisplay;
+    [SerializeField] TextMeshProUGUI txtFrdList, leaderboarddisplay;
     [SerializeField] TMP_InputField nameInputField;
     // Start is called before the first frame update
     private void Awake()
@@ -125,14 +125,14 @@ public class FriendManager : MonoBehaviour
     //        OfferedInventoryInstanceIds = new List<string> { myItemInstanceID },
     //    }, LogSuccess, DisplayError);
     //}
-    public void SendFriendReq()
+    public void SendFriendReqByID()
     {
         PlayFabClientAPI.ExecuteCloudScript(new ExecuteCloudScriptRequest { 
             FunctionName = "SendFriendRequest", 
             FunctionParameter = new { FriendPlayFabId = nameInputField.text }, 
             GeneratePlayStreamEvent = true,
         }, result => {
-            Debug.Log("Unfriended successfully!");
+            Debug.Log("Added successfully!");
         }, null);
     }
 }

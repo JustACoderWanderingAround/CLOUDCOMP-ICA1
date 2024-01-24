@@ -8,7 +8,7 @@ using PlayFab;
 public class FriendRow : MonoBehaviour
 {
     [SerializeField] TMP_Text nameText, tagText;
-    [SerializeField] GameObject buttons;
+    [SerializeField] GameObject acceptButton, rejectButton;
     private string friendName, friendTags, friendID;
     public void InitRow(string name, string tags, string friendID)
     {
@@ -16,9 +16,9 @@ public class FriendRow : MonoBehaviour
         friendName = name;
         tagText.text = tags;
         friendTags = tags;
-        if (tags.Contains("requester"))
+        if (friendTags.Contains("Awaiting response, "))
         {
-            buttons.SetActive(true);
+            acceptButton.SetActive(false);
         }
         this.friendID = friendID;
     }
@@ -27,7 +27,7 @@ public class FriendRow : MonoBehaviour
         PlayFabClientAPI.ExecuteCloudScript(new ExecuteCloudScriptRequest
         {
             FunctionName = "AcceptFriendRequest",
-            FunctionParameter = new { FriendPlayFabId = friendName },
+            FunctionParameter = new { FriendPlayFabId = friendID },
             GeneratePlayStreamEvent = true,
         }, result =>
         {

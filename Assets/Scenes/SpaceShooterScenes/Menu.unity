@@ -6899,7 +6899,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1244569538}
         m_TargetAssemblyTypeName: FriendManager, Assembly-CSharp
-        m_MethodName: AddFriendByEmail
+        m_MethodName: SendFriendReqByID
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
