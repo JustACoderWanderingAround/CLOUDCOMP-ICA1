@@ -4,6 +4,8 @@ using UnityEngine;
 using PlayFab;
 using PlayFab.ClientModels;
 using TMPro;
+
+// written by paul baquiran 220150y gd2204
 public class PlayfabMainGameLeaderboardManager : MonoBehaviour
 {
     [SerializeField]

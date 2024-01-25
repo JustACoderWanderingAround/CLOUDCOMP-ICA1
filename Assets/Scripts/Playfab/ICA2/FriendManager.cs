@@ -6,6 +6,7 @@ using PlayFab.ClientModels;
 using TMPro;
 using UnityEngine.SceneManagement;
 
+// written by paul baquiran 220150y gd2204
 public class FriendManager : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI txtFrdList, leaderboarddisplay;

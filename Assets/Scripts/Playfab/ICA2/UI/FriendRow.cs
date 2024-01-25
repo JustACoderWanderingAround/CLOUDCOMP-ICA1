@@ -5,6 +5,7 @@ using TMPro;
 using PlayFab.ClientModels;
 using PlayFab;
 
+// written by paul baquiran 220150y gd2204
 public class FriendRow : MonoBehaviour
 {
     [SerializeField] TMP_Text nameText, tagText;
