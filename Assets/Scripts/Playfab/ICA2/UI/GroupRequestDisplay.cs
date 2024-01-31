@@ -34,12 +34,20 @@ public class GroupRequestDisplay : MonoBehaviour
     }
     public void DisplayMembershipOpportunities()
     {
+        for (int i = 0; i < applicationDisplaySpawnPos.transform.childCount; ++i)
+        {
+            Destroy(applicationDisplaySpawnPos.transform.GetChild(i));
+        }
         for (int i = 0; i < groupApplications.Count; ++i)
         {
             Vector3 newItemSpawnPos = new Vector3(applicationDisplaySpawnPos.transform.position.x, applicationDisplaySpawnPos.transform.position.y + (i * -210), applicationDisplaySpawnPos.transform.position.z);
             GameObject oneInviteRow = Instantiate(applicationDisplayRowPrefab, newItemSpawnPos, Quaternion.identity);
             oneInviteRow.GetComponent<GroupRow>().SetID(groupApplications[i].Group, false, true);
             oneInviteRow.transform.parent = applicationDisplaySpawnPos.transform;
+        }
+        for (int i = 0; i < inviteDisplaySpawnPos.transform.childCount; ++i)
+        {
+            Destroy(inviteDisplaySpawnPos.transform.GetChild(i));
         }
         for (int i = 0; i < groupInvitation.Count; ++i)
         {
