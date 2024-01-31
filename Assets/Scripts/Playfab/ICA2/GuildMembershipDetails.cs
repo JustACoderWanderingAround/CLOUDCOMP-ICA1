@@ -11,10 +11,17 @@ public class GuildMembershipDetails : MonoBehaviour
     [SerializeField] private GameObject fleetList;
     [SerializeField] private GameObject memberList;
     [SerializeField] private GameObject rowPrefab;
+    [SerializeField] TMP_InputField grpID;
+    [SerializeField] TMP_InputField memberID;
     private EntityKey ek;
     private void Awake()
     {
         GetMemberships();
+    }
+
+    public static EntityKey EntityKeyMaker(string entityId, string type)
+    {
+        return new EntityKey { Id = entityId, Type = type };
     }
     private void OnSharedError(PlayFab.PlayFabError error)
     {
@@ -88,5 +95,29 @@ public class GuildMembershipDetails : MonoBehaviour
                 oneInviteRow.transform.parent = memberList.transform;
             }
         }
+    }
+    public void OnPressFleetDetails()
+    {
+        GetGroupMembership(EntityKeyMaker(grpID.text, "group"));
+    }
+    public void OnPressInvite()
+    {
+        var req = new InviteToGroupRequest()
+        {
+            Group = EntityKeyMaker(grpID.text, "group"),
+            Entity = EntityKeyMaker(memberID.text, "title_player_account"),
+        };
+        PlayFabGroupsAPI.InviteToGroup(req, r => { Debug.Log("Invited " + memberID.text + " to " + grpID); }, OnSharedError);
+    }
+    public void OnPressKick()
+    {
+        List<EntityKey> keyList = new List<EntityKey>();
+        keyList.Add(EntityKeyMaker(memberID.text, "title_player_account"));
+        var req = new RemoveMembersRequest()
+        {
+            Group = EntityKeyMaker(grpID.text, "group"),
+            Members = keyList
+        };
+        PlayFabGroupsAPI.RemoveMembers(req, r => { Debug.Log("Removed " + memberID.text + " from " + grpID); }, OnSharedError);
     }
 }

@@ -12,6 +12,7 @@ public class GuildManager : MonoBehaviour
     [SerializeField] TMP_InputField textInput;
     public readonly HashSet<KeyValuePair<string, string>> EntityGroupPairs = new HashSet<KeyValuePair<string, string>>();
     public readonly Dictionary<string, string> GroupNameById = new Dictionary<string, string>();
+ 
     public static EntityKey EntityKeyMaker(string entityId)
     {
         return new EntityKey { Id = entityId };
@@ -142,4 +143,5 @@ public class GuildManager : MonoBehaviour
             }, OnSharedError
         );
     }
+    
 }
