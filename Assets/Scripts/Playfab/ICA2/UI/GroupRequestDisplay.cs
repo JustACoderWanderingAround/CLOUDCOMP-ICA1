@@ -36,7 +36,7 @@ public class GroupRequestDisplay : MonoBehaviour
     {
         for (int i = 0; i < applicationDisplaySpawnPos.transform.childCount; ++i)
         {
-            Destroy(applicationDisplaySpawnPos.transform.GetChild(i));
+            Destroy(applicationDisplaySpawnPos.transform.GetChild(i).gameObject);
         }
         for (int i = 0; i < groupApplications.Count; ++i)
         {
@@ -47,7 +47,7 @@ public class GroupRequestDisplay : MonoBehaviour
         }
         for (int i = 0; i < inviteDisplaySpawnPos.transform.childCount; ++i)
         {
-            Destroy(inviteDisplaySpawnPos.transform.GetChild(i));
+            Destroy(inviteDisplaySpawnPos.transform.GetChild(i).gameObject);
         }
         for (int i = 0; i < groupInvitation.Count; ++i)
         {

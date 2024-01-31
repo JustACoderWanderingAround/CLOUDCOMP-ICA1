@@ -51,13 +51,18 @@ public class GuildMembershipDetails : MonoBehaviour
                     newString += responseGrps[i].Roles[j];
                 }
             }
-            oneInviteRow.GetComponent<GroupRow>().SetText(newString);
-            oneInviteRow.transform.parent = fleetList.transform;   
+            oneInviteRow.GetComponent<GroupRow>().SetID(responseGrps[i].Group, false, false, true);
+            //oneInviteRow.GetComponent<GroupRow>().SetText(newString);
+            //oneInviteRow.GetComponent<GroupRow>().viewButton.GetComponent<UnityEngine.UI.Button>().onClick.RemoveAllListeners();
+            EntityKey temp = responseGrps[i].Group;
+            oneInviteRow.GetComponent<GroupRow>().viewButton.onClick.AddListener(() => GetGroupMembership(temp));
+            //oneInviteRow.GetComponent<GroupRow>().gameObject.GetComponentInChildren<TMPro.TMP_Text>().SetText("View group info");
+            oneInviteRow.transform.parent = fleetList.transform;
         }
     }
-    public void GetGroupMembership()
+    public void GetGroupMembership(EntityKey ek)
     {
-        var request = new ListGroupMembersRequest();
+        var request = new ListGroupMembersRequest() { Group = ek };
         PlayFabGroupsAPI.ListGroupMembers(request, r =>
         {
             DisplayGroupMembers(r);
@@ -68,7 +73,7 @@ public class GuildMembershipDetails : MonoBehaviour
     {
         for (int i = 0; i < memberList.transform.childCount; ++i)
         {
-            Destroy(memberList.transform.GetChild(i));
+            Destroy(memberList.transform.GetChild(i).gameObject);
         }
         List<EntityMemberRole> members = r.Members;
         int counter = 0;
@@ -79,7 +84,7 @@ public class GuildMembershipDetails : MonoBehaviour
                 Vector3 newItemSpawnPos = new Vector3(memberList.transform.position.x, memberList.transform.position.y + (counter * -210), memberList.transform.position.z);
                 counter++;
                 GameObject oneInviteRow = Instantiate(rowPrefab, newItemSpawnPos, Quaternion.identity);
-                oneInviteRow.GetComponent<GroupRow>().SetID(members[i].Members[j].Key, false, false);
+                oneInviteRow.GetComponent<GroupRow>().SetUserID(members[i].Members[j].Key, members[i].RoleName);
                 oneInviteRow.transform.parent = memberList.transform;
             }
         }

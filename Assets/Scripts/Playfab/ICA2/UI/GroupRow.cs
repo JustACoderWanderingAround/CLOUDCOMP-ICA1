@@ -9,13 +9,14 @@ public class GroupRow : MonoBehaviour
 {
     public GameObject tick;
     public GameObject cross;
+    public UnityEngine.UI.Button viewButton;
     private EntityKey ek;
     [SerializeField] private TMP_Text mainText;
     public void SetText(string newText)
     {
         mainText.text = newText;
     }
-    public void SetID(EntityKey ek, bool toggleTick, bool toggleCross)
+    public void SetID(EntityKey ek, bool toggleTick, bool toggleCross, bool toggleView = false)
     {
         this.ek = ek;
         var request = new GetGroupRequest()
@@ -27,7 +28,8 @@ public class GroupRow : MonoBehaviour
             result =>
             {
                 tick.SetActive(toggleTick);
-                tick.SetActive(toggleCross);
+                cross.SetActive(toggleCross);
+                viewButton.gameObject.SetActive(toggleView);
                 SetText(result.GroupName);
             }, (e) =>
             {
@@ -35,6 +37,27 @@ public class GroupRow : MonoBehaviour
             }
         );
         
+    }
+    public void SetUserID(EntityKey ek, string roleName)
+    {
+        this.ek = ek;
+        PlayFab.ProfilesModels.EntityKey newEntityKey = new PlayFab.ProfilesModels.EntityKey();
+        newEntityKey.Id = ek.Id;
+        newEntityKey.Type = "title_player_account";
+        var request = new PlayFab.ProfilesModels.GetEntityProfileRequest()
+        {
+            Entity = newEntityKey
+        };
+        PlayFabProfilesAPI.GetProfile(request,
+            r =>
+            {
+                string newString = new string("");
+                newString += "Name: " + r.Profile.DisplayName + "\n";
+                newString += "ID: " + ek.Id + "\n";
+                newString += "Role: " + roleName;
+                SetText(newString);
+            },
+            e => { Debug.LogError(e); });
     }
     public void AcceptInvite()
     {
@@ -49,7 +72,8 @@ public class GroupRow : MonoBehaviour
                 Destroy(gameObject);
             }, (e) =>
             {
-                SetText(e.ErrorMessage);
+                SetText(e.ErrorMessage); 
+                Debug.LogError(e.GenerateErrorReport());
             }
         );
     }

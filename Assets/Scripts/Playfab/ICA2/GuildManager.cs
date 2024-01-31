@@ -96,8 +96,12 @@ public class GuildManager : MonoBehaviour
 
     public void ApplyToGroup(string groupId, EntityKey entityKey)
     {
+        EntityKey groupID = EntityKeyMaker(groupId); 
         // A player-controlled entity applies to join an existing group (of which they are not already a member)
-        var request = new ApplyToGroupRequest { Group = EntityKeyMaker(groupId), Entity = entityKey };
+        var request = new ApplyToGroupRequest {
+            Group = groupID,
+            Entity = entityKey
+        };
         PlayFabGroupsAPI.ApplyToGroup(request, OnApply, OnSharedError);
     }
     public void OnApply(ApplyToGroupResponse response)
@@ -124,5 +128,18 @@ public class GuildManager : MonoBehaviour
 
         Debug.Log("Entity kicked from Group: " + prevRequest.Members[0].Id + " to " + prevRequest.Group.Id);
         EntityGroupPairs.Remove(new KeyValuePair<string, string>(prevRequest.Members[0].Id, prevRequest.Group.Id));
+    }
+    public void OnPressApplyGroup()
+    {
+        // A player-controlled entity applies to join an existing group (of which they are not already a member)
+        var request = new PlayFab.ClientModels.GetPlayerProfileRequest();
+        PlayFabClientAPI.GetPlayerProfile(request,
+            r =>
+            {
+                Debug.Log("Applied to group");
+                var applyReq = new ApplyToGroupRequest() { Group = EntityKeyMaker(textInput.text) };
+                PlayFabGroupsAPI.ApplyToGroup(applyReq, r => { }, OnSharedError);
+            }, OnSharedError
+        );
     }
 }
