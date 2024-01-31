@@ -118,14 +118,6 @@ public class FriendManager : MonoBehaviour
     {
         return _friends;
     }
-    //void GiveItemTo(string secondPlayerID, string myItemInstanceID)
-    //{
-    //    PlayFabClientAPI.OpenTrade(new OpenTradeRequest
-    //    {
-    //        AllowedPlayerIds = new List<string> { secondPlayerID }, 
-    //        OfferedInventoryInstanceIds = new List<string> { myItemInstanceID },
-    //    }, LogSuccess, DisplayError);
-    //}
     public void SendFriendReqByID()
     {
         PlayFabClientAPI.ExecuteCloudScript(new ExecuteCloudScriptRequest { 

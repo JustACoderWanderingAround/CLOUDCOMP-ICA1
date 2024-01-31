@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using PlayFab;
 using PlayFab.ClientModels;
+// written by paul baquiran 220150y gd2204
 public class FriendListDisplay : MonoBehaviour
 {
     [SerializeField] private FriendManager friendManager;

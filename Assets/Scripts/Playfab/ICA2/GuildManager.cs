@@ -9,17 +9,13 @@ using TMPro;
 
 public class GuildManager : MonoBehaviour
 {
-    [SerializeField] TextMeshProUGUI textInput;
-    // A local cache of some bits of PlayFab data
-    // This cache pretty much only serves this example , and assumes that entities are uniquely identifiable by EntityId alone, which isn't technically true. Your data cache will have to be better.
+    [SerializeField] TMP_InputField textInput;
     public readonly HashSet<KeyValuePair<string, string>> EntityGroupPairs = new HashSet<KeyValuePair<string, string>>();
     public readonly Dictionary<string, string> GroupNameById = new Dictionary<string, string>();
-
     public static EntityKey EntityKeyMaker(string entityId)
     {
         return new EntityKey { Id = entityId };
     }
-
     private void OnSharedError(PlayFab.PlayFabError error)
     {
         Debug.LogError(error.GenerateErrorReport());
@@ -39,7 +35,6 @@ public class GuildManager : MonoBehaviour
             EntityGroupPairs.Add(new KeyValuePair<string, string>(prevRequest.Entity.Id, pair.Group.Id));
         }
     }
-
     public void CreateGroup(string groupName, EntityKey entityKey)
     {
         // A player-controlled entity creates a new group
@@ -53,6 +48,11 @@ public class GuildManager : MonoBehaviour
         var prevRequest = (CreateGroupRequest)response.Request;
         EntityGroupPairs.Add(new KeyValuePair<string, string>(prevRequest.Entity.Id, response.Group.Id));
         GroupNameById[response.Group.Id] = response.GroupName;
+    }
+    public void OnPressCreateGroup()
+    {
+        EntityKey defaultKey = EntityKeyMaker(textInput.text);
+        CreateGroup(textInput.text, defaultKey);
     }
     public void DeleteGroup(string groupId)
     {
