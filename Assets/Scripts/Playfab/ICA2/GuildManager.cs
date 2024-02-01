@@ -13,9 +13,9 @@ public class GuildManager : MonoBehaviour
     public readonly HashSet<KeyValuePair<string, string>> EntityGroupPairs = new HashSet<KeyValuePair<string, string>>();
     public readonly Dictionary<string, string> GroupNameById = new Dictionary<string, string>();
  
-    public static EntityKey EntityKeyMaker(string entityId)
+    public static EntityKey EntityKeyMaker(string entityId, string type)
     {
-        return new EntityKey { Id = entityId };
+        return new EntityKey { Id = entityId, Type = type };
     }
     private void OnSharedError(PlayFab.PlayFabError error)
     {
@@ -36,29 +36,28 @@ public class GuildManager : MonoBehaviour
             EntityGroupPairs.Add(new KeyValuePair<string, string>(prevRequest.Entity.Id, pair.Group.Id));
         }
     }
-    public void CreateGroup(string groupName, EntityKey entityKey)
+    public void CreateGroup(string groupName)
     {
         // A player-controlled entity creates a new group
-        var request = new CreateGroupRequest { GroupName = groupName, Entity = entityKey };
+        var request = new CreateGroupRequest { GroupName = groupName };
         PlayFabGroupsAPI.CreateGroup(request, OnCreateGroup, OnSharedError);
     }
     private void OnCreateGroup(CreateGroupResponse response)
     {
         Debug.Log("Group Created: " + response.GroupName + " - " + response.Group.Id);
 
-        var prevRequest = (CreateGroupRequest)response.Request;
-        EntityGroupPairs.Add(new KeyValuePair<string, string>(prevRequest.Entity.Id, response.Group.Id));
-        GroupNameById[response.Group.Id] = response.GroupName;
+        //var prevRequest = (CreateGroupRequest)response.Request;
+        //EntityGroupPairs.Add(new KeyValuePair<string, string>(prevRequest.Entity.Id, response.Group.Id));
+        //GroupNameById[response.Group.Id] = response.GroupName;
     }
     public void OnPressCreateGroup()
     {
-        EntityKey defaultKey = EntityKeyMaker(textInput.text);
-        CreateGroup(textInput.text, defaultKey);
+        CreateGroup(textInput.text);
     }
     public void DeleteGroup(string groupId)
     {
         // A title, or player-controlled entity with authority to do so, decides to destroy an existing group
-        var request = new DeleteGroupRequest { Group = EntityKeyMaker(groupId) };
+        var request = new DeleteGroupRequest { Group = EntityKeyMaker(groupId, "group")};
         PlayFabGroupsAPI.DeleteGroup(request, OnDeleteGroup, OnSharedError);
     }
     private void OnDeleteGroup(EmptyResponse response)
@@ -77,7 +76,7 @@ public class GuildManager : MonoBehaviour
     public void InviteToGroup(string groupId, EntityKey entityKey)
     {
         // A player-controlled entity invites another player-controlled entity to an existing group
-        var request = new InviteToGroupRequest { Group = EntityKeyMaker(groupId), Entity = entityKey };
+        var request = new InviteToGroupRequest { Group = EntityKeyMaker(groupId, "group"), Entity = entityKey };
         PlayFabGroupsAPI.InviteToGroup(request, OnInvite, OnSharedError);
     }
     public void OnInvite(InviteToGroupResponse response)
@@ -85,7 +84,7 @@ public class GuildManager : MonoBehaviour
         var prevRequest = (InviteToGroupRequest)response.Request;
 
         // Presumably, this would be part of a separate process where the recipient reviews and accepts the request
-        var request = new AcceptGroupInvitationRequest { Group = EntityKeyMaker(prevRequest.Group.Id), Entity = prevRequest.Entity };
+        var request = new AcceptGroupInvitationRequest { Group = EntityKeyMaker(prevRequest.Group.Id, "group"), Entity = prevRequest.Entity };
         PlayFabGroupsAPI.AcceptGroupInvitation(request, OnAcceptInvite, OnSharedError);
     }
     public void OnAcceptInvite(EmptyResponse response)
@@ -97,7 +96,7 @@ public class GuildManager : MonoBehaviour
 
     public void ApplyToGroup(string groupId, EntityKey entityKey)
     {
-        EntityKey groupID = EntityKeyMaker(groupId); 
+        EntityKey groupID = EntityKeyMaker(groupId, "group"); 
         // A player-controlled entity applies to join an existing group (of which they are not already a member)
         var request = new ApplyToGroupRequest {
             Group = groupID,
@@ -120,7 +119,7 @@ public class GuildManager : MonoBehaviour
     }
     public void KickMember(string groupId, EntityKey entityKey)
     {
-        var request = new RemoveMembersRequest { Group = EntityKeyMaker(groupId), Members = new List<EntityKey> { entityKey } };
+        var request = new RemoveMembersRequest { Group = EntityKeyMaker(groupId, "group"), Members = new List<EntityKey> { entityKey } };
         PlayFabGroupsAPI.RemoveMembers(request, OnKickMembers, OnSharedError);
     }
     private void OnKickMembers(EmptyResponse response)
@@ -138,7 +137,7 @@ public class GuildManager : MonoBehaviour
             r =>
             {
                 Debug.Log("Applied to group");
-                var applyReq = new ApplyToGroupRequest() { Group = EntityKeyMaker(textInput.text) };
+                var applyReq = new ApplyToGroupRequest() { Group = EntityKeyMaker(textInput.text, "group"),  };
                 PlayFabGroupsAPI.ApplyToGroup(applyReq, r => { }, OnSharedError);
             }, OnSharedError
         );
